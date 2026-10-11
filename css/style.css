@@ -156,3 +156,5 @@ select.fld option { background: #20252d; color: var(--text); }
 
 /* стрелка у полей с подсказками занимает место и съедает текст */
 .fld::-webkit-calendar-picker-indicator { display: none !important; }
+
+.slot.filled.hot { outline: 2px solid var(--accent); outline-offset: 1px; border-radius: 12px; }

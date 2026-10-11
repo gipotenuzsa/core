@@ -338,12 +338,13 @@
     return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
   };
 
-  // Ищет место вставки. Операторы — между блоками стопок, выражения — в пустых слотах.
+  // Ищет место вставки. Операторы — между блоками стопок, выражения — в слотах
+  // (самый вложенный под курсором; в занятый слот значение вставляется с заменой).
   Editor.prototype.findTarget = function (e) {
     var d = this.drag;
     var best = null, bestScore = Infinity;
     if (d.kind === 'expr') {
-      Array.prototype.forEach.call(this.inner.querySelectorAll('.slot.empty'), function (s) {
+      Array.prototype.forEach.call(this.inner.querySelectorAll('.slot'), function (s) {
         var r = s.getBoundingClientRect();
         var pad = 8;
         if (e.clientX >= r.left - pad && e.clientX <= r.right + pad && e.clientY >= r.top - pad && e.clientY <= r.bottom + pad) {
