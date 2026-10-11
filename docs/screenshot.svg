@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Заглушка скриншота Core">
+  <rect width="960" height="540" fill="#14171c"/>
+  <rect width="960" height="44" fill="#1a1e25"/>
+  <text x="18" y="29" fill="#4fd1a5" font-family="system-ui,Arial" font-size="18" font-weight="700">Core</text>
+  <rect x="0" y="44" width="170" height="496" fill="#1a1e25"/>
+  <rect x="680" y="44" width="280" height="496" fill="#1a1e25"/>
+  <rect x="200" y="70" width="230" height="34" rx="6" fill="#94694c"/>
+  <rect x="200" y="110" width="230" height="34" rx="6" fill="#94694c"/>
+  <rect x="200" y="150" width="260" height="110" rx="6" fill="#7b6c9a"/>
+  <rect x="214" y="184" width="240" height="30" rx="6" fill="#94694c"/>
+  <rect x="214" y="218" width="240" height="30" rx="6" fill="#94694c"/>
+  <rect x="200" y="266" width="170" height="34" rx="6" fill="#8d794b"/>
+  <rect x="696" y="60" width="248" height="186" rx="6" fill="#10131a" stroke="#2b313b"/>
+  <rect x="800" y="90" width="20" height="20" fill="#ff6b6b"/>
+  <rect x="800" y="190" width="20" height="20" fill="#5b8cff"/>
+  <text x="480" y="500" fill="#8b94a3" font-family="system-ui,Arial" font-size="20" text-anchor="middle">Заглушка скриншота — замените на настоящий</text>
+</svg>
