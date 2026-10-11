@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Core — учебный язык с блоками</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">Core<span>учебный язык</span></div>
+    <label class="demo-pick">Пример
+      <select id="demo"></select>
+    </label>
+    <div class="spacer"></div>
+    <span id="status" class="status"></span>
+    <button id="arrange" title="Расставить стопки блоков друг под другом">Упорядочить</button>
+    <button id="run" class="primary">▶ Запуск</button>
+    <button id="stop">■ Стоп</button>
+    <button id="reset">↺ Сбросить</button>
+  </header>
+
+  <main>
+    <aside id="palette">
+      <nav id="cats"></nav>
+      <div id="plist"></div>
+      <p class="hint">Перетащите блок в рабочую область. Чтобы удалить блок — перетащите его сюда или нажмите Delete.</p>
+    </aside>
+
+    <section id="ws"><div id="ws-inner"></div></section>
+
+    <aside id="right">
+      <div class="canvas-wrap"><canvas id="canvas" width="480" height="360"></canvas></div>
+      <div class="tabs">
+        <button data-tab="out" class="active">Вывод</button>
+        <button data-tab="code">Текст программы</button>
+      </div>
+      <div id="out" class="panel"></div>
+      <pre id="code" class="panel" hidden></pre>
+    </aside>
+  </main>
+
+  <datalist id="dl-vars"></datalist>
+  <datalist id="dl-funcs"></datalist>
+
+  <!-- ядро языка -->
+  <script src="src/core/ast.js"></script>
+  <script src="src/core/interpreter.js"></script>
+  <script src="src/core/codegen.js"></script>
+  <!-- редактор -->
+  <script src="src/editor/spec.js"></script>
+  <script src="src/editor/blocks-core.js"></script>
+  <script src="src/editor/render.js"></script>
+  <script src="src/editor/editor.js"></script>
+  <!-- примеры -->
+  <script src="src/demos/sum.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+/* Core — тёмная тема, один акцентный цвет (мятный). Синий и красный — только для команд в игре. */
+:root {
+  --bg: #14171c;
+  --panel: #1a1e25;
+  --panel-2: #20252d;
+  --line: #2b313b;
+  --text: #d8dde5;
+  --muted: #8b94a3;
+  --accent: #4fd1a5;
+  --accent-ink: #0d1a15;
+  --danger: #ff6b6b;
+  --blue: #5b8cff;
+  --red: #ff6b6b;
+  --t: .18s ease;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; display: flex; flex-direction: column;
+  background: var(--bg); color: var(--text); font: 14px/1.4 var(--font);
+  min-width: 1024px; overflow: hidden;
+}
+body.dragging { cursor: grabbing; user-select: none; -webkit-user-select: none; }
+
+/* ---------- верхняя панель ---------- */
+.top {
+  display: flex; align-items: center; gap: 10px; padding: 8px 14px;
+  background: var(--panel); border-bottom: 1px solid var(--line);
+}
+.brand { font-weight: 700; font-size: 18px; letter-spacing: .3px; color: var(--accent); }
+.brand span { margin-left: 8px; font-weight: 400; font-size: 12px; color: var(--muted); }
+.spacer { flex: 1; }
+.demo-pick { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; margin-left: 18px; }
+
+button, select {
+  font: inherit; color: var(--text); background: var(--panel-2);
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer;
+  transition: background var(--t), border-color var(--t), color var(--t);
+}
+button:hover, select:hover { background: #2a303a; border-color: #3a4250; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+button.primary:hover { background: #6fe0b9; border-color: #6fe0b9; }
+
+.status { font-size: 13px; color: var(--muted); padding: 0 8px; transition: color var(--t); }
+.status.run { color: var(--accent); }
+.status.ok { color: var(--accent); }
+.status.err { color: var(--danger); }
+
+/* ---------- основная раскладка ---------- */
+main { flex: 1; min-height: 0; display: grid; grid-template-columns: 200px minmax(300px, 1fr) 380px; }
+
+#palette {
+  display: flex; flex-direction: column; min-height: 0;
+  background: var(--panel); border-right: 1px solid var(--line);
+  transition: background var(--t);
+}
+body.dragging #palette { background: #2a1d20; }
+#cats { display: flex; flex-direction: column; padding: 8px; gap: 2px; border-bottom: 1px solid var(--line); }
+.cat {
+  text-align: left; background: transparent; border-color: transparent; padding: 5px 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.cat::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+.cat.active { background: var(--panel-2); border-color: var(--line); color: #fff; }
+#plist { flex: 1; overflow: auto; padding: 10px 8px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.pitem { cursor: grab; touch-action: pan-y; max-width: 100%; }
+.pitem .block { pointer-events: none; }
+.hint { margin: 0; padding: 8px 10px; font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--line); }
+
+#ws { position: relative; overflow: auto; background:
+  radial-gradient(circle, #232932 1px, transparent 1px) 0 0 / 22px 22px, var(--bg); }
+#ws-inner { position: relative; }
+.item { position: absolute; }
+
+#right { display: flex; flex-direction: column; min-height: 0; background: var(--panel); border-left: 1px solid var(--line); }
+.canvas-wrap { padding: 10px; border-bottom: 1px solid var(--line); }
+#canvas { display: block; width: 100%; height: auto; background: #0e1014; border: 1px solid var(--line); border-radius: 6px; }
+.tabs { display: flex; gap: 2px; padding: 8px 10px 0; }
+.tabs button { border-radius: 6px 6px 0 0; border-bottom-color: transparent; background: transparent; color: var(--muted); }
+.tabs button.active { background: var(--panel-2); color: var(--text); border-color: var(--line); border-bottom-color: var(--panel-2); }
+.panel {
+  flex: 1; min-height: 0; margin: 0 10px 10px; padding: 10px; overflow: auto;
+  background: var(--panel-2); border: 1px solid var(--line); border-radius: 0 6px 6px 6px;
+  font: 13px/1.5 var(--mono);
+}
+pre.panel { white-space: pre; color: #c5ccd6; }
+.panel[hidden] { display: none; }
+.line { white-space: pre-wrap; word-break: break-word; }
+.line.err { color: var(--danger); }
+.line.muted { color: var(--muted); }
+
+/* ---------- блоки ---------- */
+.cat-values { --c: #5a6679; }
+.cat-vars   { --c: #94694c; }
+.cat-logic  { --c: #5c7b92; }
+.cat-loops  { --c: #7b6c9a; }
+.cat-funcs  { --c: #5d8a6c; }
+.cat-out    { --c: #8d794b; }
+.cat-world  { --c: #8a5f74; }
+
+.block {
+  position: relative; background: var(--c); color: #f3f5f8; touch-action: none;
+  transition: background var(--t), box-shadow .5s ease, filter .5s ease, outline-color var(--t);
+  outline: 2px solid transparent; outline-offset: 1px; cursor: grab;
+}
+.block:hover { filter: brightness(1.08); }
+.block.selected { outline-color: var(--accent); }
+.block.error { outline-color: var(--danger); background: #8a3a3a; }
+.block.run { box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px rgba(79, 209, 165, .25); filter: brightness(1.25); transition-duration: .08s; }
+
+.block.stmt { display: block; border-radius: 6px; margin: 0 0 3px; width: max-content; min-width: 90px; }
+.block.stmt > .row { display: flex; align-items: center; flex-wrap: nowrap; gap: 6px; padding: 5px 9px; min-height: 30px; white-space: nowrap; }
+.block.stmt > .cbody { margin-left: 12px; padding: 4px 6px 4px 6px; background: rgba(0, 0, 0, .24); min-height: 30px; }
+.block.stmt > .cbody > .stack { min-height: 24px; }
+.block.stmt > .row.foot { padding-top: 4px; padding-bottom: 4px; min-height: 24px; }
+.block.stmt > .cbody:last-child { border-radius: 0 0 6px 0; margin-bottom: 4px; }
+
+.block.expr { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .16); min-height: 24px; white-space: nowrap; vertical-align: middle; }
+.lbl { font-size: 13px; }
+
+.slot { display: inline-flex; align-items: center; vertical-align: middle; }
+.slot.empty { min-width: 26px; height: 22px; border-radius: 11px; background: rgba(0, 0, 0, .3); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1); transition: background var(--t), box-shadow var(--t); }
+.slot.empty.hot { background: rgba(79, 209, 165, .35); box-shadow: inset 0 0 0 2px var(--accent); }
+.slot.filled > .block.expr { margin: 0; }
+
+.fld {
+  font: 13px var(--font); color: #fff; background: rgba(0, 0, 0, .3); border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 5px; padding: 2px 6px; height: 22px; min-width: 2ch; cursor: text; transition: background var(--t), border-color var(--t);
+}
+.fld:hover { background: rgba(0, 0, 0, .4); }
+.fld:focus { outline: none; background: rgba(0, 0, 0, .5); border-color: var(--accent); }
+select.fld { cursor: pointer; padding: 0 4px; }
+select.fld option { background: #20252d; color: var(--text); }
+.num-fld { text-align: center; }
+.mini { padding: 0 6px; height: 20px; line-height: 18px; border-radius: 10px; font-size: 13px; background: rgba(0, 0, 0, .3); border-color: transparent; color: #fff; }
+.mini:hover { background: rgba(0, 0, 0, .5); border-color: transparent; }
+
+.badge { display: none; font: 10px var(--mono); color: rgba(255, 255, 255, .6); background: rgba(0, 0, 0, .35); border-radius: 8px; padding: 0 5px; }
+.show-nums .badge:not(:empty) { display: inline-block; }
+
+/* ---------- перетаскивание ---------- */
+.ghost { position: fixed; left: 0; top: 0; z-index: 1000; pointer-events: none; opacity: .92; transition: opacity var(--t); }
+.ghost .block { pointer-events: none; box-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
+.ghost.trash { opacity: .4; }
+.drop-line { position: fixed; z-index: 999; height: 3px; border-radius: 2px; background: var(--accent); pointer-events: none; }
+.drop-line[hidden] { display: none; }
+#plist input, #plist select { pointer-events: none; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #2f3642; border-radius: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* стрелка у полей с подсказками занимает место и съедает текст */
+.fld::-webkit-calendar-picker-indicator { display: none !important; }
