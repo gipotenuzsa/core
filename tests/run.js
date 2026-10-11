@@ -12,7 +12,7 @@ const path = require('path');
 const root = path.join(__dirname, '..');
 const sources = [
   'src/core/ast.js', 'src/core/interpreter.js', 'src/core/codegen.js',
-  'src/world/world.js', 'src/demos/sum.js', 'src/demos/shooter.js'
+  'src/world/world.js', 'src/editor/spec.js', 'src/editor/blocks-core.js', 'src/world/blocks.js', 'src/demos/sum.js', 'src/demos/shooter.js'
 ];
 for (const f of sources) {
   const p = path.join(root, f);
